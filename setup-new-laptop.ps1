@@ -20,10 +20,10 @@ $homeDir = [Environment]::GetFolderPath("UserProfile")
 Write-Output "`n[1] Installing Astral uv package manager..."
 powershell -ExecutionPolicy ByPass -Command "irm https://astral.sh/uv/install.ps1 | iex"
 
-# 2. Clone / Restore Repositories
-Write-Output "`n[2] Cloning Core Repositories..."
+# 2. Clone Personal Agent Suite from GitHub
+Write-Output "`n[2] Cloning Personal Agent Suite from GitHub..."
 if (-not (Test-Path $agentSkillsDir)) {
-    git clone --recurse-submodules -j8 https://github.com/addyosmani/agent-skills.git $agentSkillsDir
+    git clone https://github.com/heruu-1/my-agent-skills.git $agentSkillsDir
 }
 if (-not (Test-Path $nvidiaDir)) {
     git clone --depth 1 https://github.com/NVIDIA/skills.git $nvidiaDir
