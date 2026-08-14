@@ -1,7 +1,6 @@
-﻿---
+---
 name: neural-network-training-recipe
-description: >-
-  Use this skill when developing, training, debugging, or optimizing neural networks and deep learning models (PyTorch, TensorFlow, Keras). Applies Andrej Karpathy's systematic training recipe to prevent silent bugs and ensure reproducible convergence.
+description: Use when developing, training, debugging, or optimizing neural networks and deep learning models in PyTorch or TensorFlow.
 ---
 
 # Neural Network Training Recipe (Andrej Karpathy Standard)
@@ -44,3 +43,4 @@ This skill enforces the battle-tested, systematic approach to training neural ne
 - Use learning rate finder or coarse-to-fine random search on learning rates ($10^{-5}$ to $10^{-1}$).
 - Use AdamW or SGD with Cosine Annealing learning rate schedule.
 - Validate gradient norms (`torch.nn.utils.clip_grad_norm_`).
+

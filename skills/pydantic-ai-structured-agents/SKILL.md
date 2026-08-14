@@ -1,7 +1,6 @@
-﻿---
+---
 name: pydantic-ai-structured-agents
-description: >-
-  Use this skill when building production-ready, type-safe AI agents with strict schema validation, structured output models, dependency injection, and tool calling using PydanticAI.
+description: Use when building production-ready, type-safe AI agents with strict schema validation, structured output models, dependency injection, and tool calling.
 ---
 
 # PydanticAI Type-Safe Agent Engineering
@@ -50,3 +49,4 @@ async def fetch_user_metrics(ctx: RunContext[DatabaseContext], metric_name: str)
 - **Explicit Field Descriptions**: Always supply detailed `Field(description=...)` to guide model parameter generation.
 - **Dependency Injection**: Pass database connections, API clients, and auth tokens via `deps_type` rather than global state.
 - **Dynamic System Prompts**: Use `@agent.system_prompt` functions to inject runtime context dynamically.
+

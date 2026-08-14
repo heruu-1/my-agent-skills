@@ -1,7 +1,6 @@
-﻿---
+---
 name: laravel-service-action-architecture
-description: >-
-  Use this skill when developing, refactoring, or architecting backend applications in Laravel / PHP. Enforces the "Thin Controller, Fat Service/Action" pattern, Data Transfer Objects (DTOs), dedicated FormRequests, and testable domain logic.
+description: Use when developing, refactoring, or architecting backend applications in Laravel and PHP following Thin Controller and Fat Action patterns.
 ---
 
 # Laravel "Thin Controller, Fat Service / Action" Architecture
@@ -81,3 +80,4 @@ class StudentController extends Controller
 2. **Never use `$request->all()` directly**: Always validate via `FormRequest` and use `$request->validated()`.
 3. **Wrap multi-table mutations in `DB::transaction()`**: Guarantee data consistency.
 4. **100% Testable**: Actions can be unit tested without making full HTTP requests (`(new RegisterStudentAction())->execute(...)`).
+

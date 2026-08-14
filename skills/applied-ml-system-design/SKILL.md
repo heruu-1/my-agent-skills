@@ -1,7 +1,6 @@
-﻿---
+---
 name: applied-ml-system-design
-description: >-
-  Use this skill when designing machine learning architectures, choosing between heuristics vs classical ML vs deep learning vs LLMs, designing inference pipelines, or setting up end-to-end ML systems.
+description: Use when designing machine learning architectures, choosing between heuristics vs classical ML vs deep learning vs LLMs, or designing inference pipelines.
 ---
 
 # Applied ML System Design Guidelines
@@ -21,3 +20,4 @@ Always evaluate the problem in increasing order of complexity:
 - Cache repetitive queries.
 - Batch incoming requests where possible.
 - Use ONNX Runtime or TensorRT for low-latency production deployment.
+

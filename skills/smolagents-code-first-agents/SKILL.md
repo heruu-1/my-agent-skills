@@ -1,7 +1,6 @@
-﻿---
+---
 name: smolagents-code-first-agents
-description: >-
-  Use this skill when building ultra-lightweight, code-first AI agents that 'think in code' using Hugging Face smolagents. Generates pure Python execution blocks instead of verbose JSON tool-calling loops, achieving 10x faster execution and minimum RAM footprint.
+description: Use when building ultra-lightweight, code-first AI agents that think in code using Hugging Face smolagents.
 ---
 
 # Hugging Face `smolagents` (CodeAgent Architecture)
@@ -29,3 +28,4 @@ print(result)
 - **Think in Code**: Natural handling of loops, branching, and data transformations in a single turn.
 - **Ultra Lightweight**: Only ~1,000 lines of source code; zero bloated abstractions.
 - **Secure Sandbox**: Includes authorized module imports and local execution guards.
+

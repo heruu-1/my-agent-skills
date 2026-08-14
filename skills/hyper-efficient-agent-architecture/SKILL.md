@@ -1,7 +1,6 @@
-﻿---
+---
 name: hyper-efficient-agent-architecture
-description: >-
-  Master operational blueprint for the 4-Engine Hyper-Efficient Agent Architecture (CodeAct, Actor-Critic, LangGraph Stateful Pipelines, and Speculative Drafting). Enforces maximum speed, zero data leakage, and memory-efficient execution tailored for Web Engineering and Machine Learning Research.
+description: Use when orchestrating the 4-Engine Hyper-Efficient Agent Architecture (CodeAct, Actor-Critic, LangGraph Stateful Pipelines, and Speculative Drafting).
 ---
 
 # The 4-Engine Hyper-Efficient Agent Architecture Blueprint
@@ -23,3 +22,4 @@ This skill formalizes the definitive architectural strategy for autonomous softw
 
 ### 4. Speculative Drafting (Fast Tier to Frontier Polish)
 - Utilize lightweight, ultra-fast generation for initial code scaffolds, focusing compute budgets on targeted verification and diff patches.
+

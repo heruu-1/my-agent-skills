@@ -1,7 +1,6 @@
-﻿---
+---
 name: ml-model-evaluation-and-metrics
-description: >-
-  Use this skill when evaluating machine learning models, calculating metrics, analyzing confusion matrices, error analysis, or establishing model performance benchmarks. Follows Eugene Yan and Hamel Husain evaluation-driven development standards.
+description: Use when evaluating machine learning models, calculating metrics, analyzing confusion matrices, error analysis, or establishing model benchmarks.
 ---
 
 # ML Model Evaluation & Metrics (Eugene Yan Standard)
@@ -28,3 +27,4 @@ Model accuracy alone is rarely sufficient. A robust evaluation framework reveals
 ### 4. Error Analysis
 - Extract the top 20 worst misclassifications / highest residual errors.
 - Categorize error causes: (a) noisy ground truth labels, (b) ambiguous input, (c) edge-case outliers, (d) feature omission.
+

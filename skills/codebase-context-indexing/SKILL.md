@@ -1,7 +1,6 @@
-﻿---
+---
 name: codebase-context-indexing
-description: >-
-  Use this skill when managing large codebases, optimizing token consumption, building local vector search indexes, or retrieving pinpoint code context for AI agents without filling the context window.
+description: Use when managing large codebases, optimizing token consumption, building local vector search indexes, or retrieving pinpoint code context for AI agents.
 ---
 
 # Codebase Context Indexing & Token Optimization
@@ -22,3 +21,4 @@ Inspired by Zilliz Claude-Context, this skill provides strategies for token-effi
 ### 3. Context Budget Management
 - Reserve at least 40% of context window for model reasoning and generation.
 - Strip comments, test fixtures, and binary data before sending context to LLM.
+

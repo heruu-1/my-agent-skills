@@ -1,7 +1,6 @@
-﻿---
+---
 name: langgraph-stateful-agent-design
-description: >-
-  Use this skill when designing, implementing, or debugging multi-agent workflows, state machines, cyclical agent loops, human-in-the-loop validation, and persistent agent checkpoints using LangGraph.
+description: Use when designing, implementing, or debugging multi-agent workflows, state machines, cyclical agent loops, human-in-the-loop validation, and persistent agent checkpoints.
 ---
 
 # LangGraph Stateful Multi-Agent Design
@@ -54,3 +53,4 @@ app = workflow.compile(checkpointer=checkpointer)
 - **Never mutate state directly in-place**: Return clean dictionary updates.
 - **Fail-Safe Fallbacks**: Always add maximum iteration counters to prevent infinite loops in cyclic graphs.
 - **Human-in-the-Loop**: Use `interrupt_before=["human_review"]` to pause execution before destructive actions (database writes, API deployments).
+

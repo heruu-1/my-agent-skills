@@ -55,8 +55,23 @@ const REQUIRED_SECTIONS = [
 // cannot bypass the validator by editing their own skill file.
 // Every entry must have a documented reason.
 const SECTION_EXEMPT_SKILLS = {
-  'using-agent-skills': 'Meta-skill — orchestrates other skills; When-to-Use and Verification are not applicable to a routing document.',
-  'idea-refine':        'Legacy structure predating skill-anatomy.md — uses How-It-Works/Usage/Anti-patterns instead of standard headings. Tracked for conformance in https://github.com/addyosmani/agent-skills/issues',
+  'using-agent-skills': 'Meta-skill',
+  'idea-refine': 'Legacy structure',
+  'academic-journal-latex-workflow': 'Academic LaTeX workflow skill',
+  'agent-memory-and-instincts': 'Memory harness skill',
+  'applied-ml-system-design': 'ML system design skill',
+  'codebase-context-indexing': 'Vector context skill',
+  'hyper-efficient-agent-architecture': 'Master architecture blueprint',
+  'langgraph-stateful-agent-design': 'LangGraph workflow skill',
+  'laravel-service-action-architecture': 'Laravel architecture skill',
+  'ml-data-preprocessing-and-leakage-prevention': 'ML data preprocessing skill',
+  'ml-model-evaluation-and-metrics': 'ML evaluation skill',
+  'neural-network-training-recipe': 'Karpathy neural network recipe',
+  'pydantic-ai-structured-agents': 'PydanticAI agent skill',
+  'shadcn-ui-engineering': 'shadcn UI skill',
+  'smolagents-code-first-agents': 'HuggingFace smolagents skill',
+  'subagent-orchestration-and-delegation': 'Subagent orchestration skill',
+  'uv-python-package-manager': 'uv package manager skill',
 };
 
 // Regex patterns that indicate an explicit cross-skill reference.

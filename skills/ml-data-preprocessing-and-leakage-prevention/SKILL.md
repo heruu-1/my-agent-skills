@@ -1,7 +1,6 @@
-﻿---
+---
 name: ml-data-preprocessing-and-leakage-prevention
-description: >-
-  Use this skill when preparing datasets, handling missing values, feature scaling, encoding categorical variables, or splitting data for machine learning. Applies Chip Huyen's production MLOps guidelines to prevent data leakage and ensure train/val/test integrity.
+description: Use when preparing datasets, handling missing values, feature scaling, encoding categorical variables, or splitting data for machine learning.
 ---
 
 # ML Data Preprocessing & Data Leakage Prevention (Chip Huyen Standard)
@@ -31,3 +30,4 @@ Data leakage is the most common cause of high offline validation scores that fai
 ### 5. Reproducibility Checklist
 - Pin all random states across NumPy, Pandas, Scikit-Learn, and PyTorch.
 - Store preprocessing pipelines using `sklearn.pipeline.Pipeline` or `ColumnTransformer` to guarantee zero leakage during inference.
+

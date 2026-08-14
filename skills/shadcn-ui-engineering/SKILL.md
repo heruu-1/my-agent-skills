@@ -1,7 +1,6 @@
-﻿---
+---
 name: shadcn-ui-engineering
-description: >-
-  Use this skill when building modern frontend interfaces with React, Next.js, and TailwindCSS using shadcn/ui components. Enforces clean component composition, accessibility (Radix UI primitives), and copy-paste modularity.
+description: Use when building modern frontend interfaces with React, Next.js, and TailwindCSS using accessible shadcn/ui components.
 ---
 
 # `shadcn/ui` Component Engineering
@@ -37,3 +36,4 @@ npx shadcn@latest add button card dialog dropdown-menu form input table tabs toa
   ```
 - **Type-Safe Forms**: Combine shadcn/ui `Form` with `react-hook-form` and `zod` for automatic client-side schema validation.
 - **Accessibility by Default**: Never strip Radix UI `aria-*` attributes or focus ring classes (`focus-visible:ring-2`).
+

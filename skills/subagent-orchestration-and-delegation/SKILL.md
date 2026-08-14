@@ -1,7 +1,6 @@
-﻿---
+---
 name: subagent-orchestration-and-delegation
-description: >-
-  Use this skill whenever a complex, multi-faceted, or heavy task can be split into specialized parallel subtasks. Enforces delegating focused responsibilities (research, security audit, code review, ML data audit, LaTeX drafting) to specialized subagents for maximum token efficiency and context preservation.
+description: Use when delegating focused responsibilities like research, security audit, code review, ML data audit, or LaTeX drafting to specialized subagents.
 ---
 
 # Subagent Orchestration & Delegation Protocol
@@ -25,3 +24,4 @@ When tackling complex software engineering, machine learning, or academic writin
 1. **Parallel Fan-Out**: When completing a multi-step milestone (e.g. shipping a feature), spawn `code-reviewer`, `security-auditor`, and `test-engineer` concurrently.
 2. **Context Isolation**: Run large research queries or deep file audits inside a `research` subagent to keep the main conversation context clean.
 3. **Actionable Synthesis**: When subagents return their findings, synthesize their reports into clear, executive summaries for the user.
+

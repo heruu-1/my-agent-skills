@@ -1,7 +1,6 @@
-﻿---
+---
 name: academic-journal-latex-workflow
-description: >-
-  Use this skill when drafting, structuring, writing, formatting, or debugging academic journal papers, conference articles, or thesis chapters in LaTeX (IEEE, ACM, Elsevier, Springer, SINTA, Scopus standards). Covers the complete 0% to 100% paper lifecycle, mathematical formulas, algorithms, booktabs tables, and BibTeX citations.
+description: Use when drafting, structuring, writing, formatting, or debugging academic journal papers, conference articles, or thesis chapters in LaTeX.
 ---
 
 # Academic Journal & Paper Writing in LaTeX (0% to 100% Complete Workflow)
@@ -71,3 +70,4 @@ pdflatex main.tex
 | `Citation ... undefined` | BibTeX not compiled or citation key typo. | Run `bibtex main` then `pdflatex main.tex` twice. |
 | `Overfull \hbox` | Equation or table wider than column width. | Wrap table in `\resizebox{\columnwidth}{!}{...}` or use `\begin{table*}` for two-column spans. |
 | `Package inputenc Error` | Special non-ASCII unicode character. | Use standard LaTeX escape sequences (e.g. `\&`, `\%`, `\_`). |
+

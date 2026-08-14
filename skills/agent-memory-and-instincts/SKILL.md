@@ -1,7 +1,6 @@
-﻿---
+---
 name: agent-memory-and-instincts
-description: >-
-  Use this skill when enforcing persistent architectural habits, distilling agent lessons, managing long-term agent memory, and avoiding repeated coding mistakes across conversation turns.
+description: Use when enforcing persistent architectural habits, distilling agent lessons, managing long-term agent memory, and avoiding repeated coding mistakes.
 ---
 
 # Agent Memory, Instincts & Harness System (ECC Standard)
@@ -21,3 +20,4 @@ Ensures coding agents maintain strong architectural compliance, retain lessons f
 
 ### 3. Verification Gates before Handover
 - Always execute dry-runs, linter checks, and unit tests before marking any task as complete.
+

@@ -1,7 +1,6 @@
-﻿---
+---
 name: uv-python-package-manager
-description: >-
-  Use this skill when managing Python environments, installing packages, creating virtualenvs, running scripts, or configuring Python dependencies. Enforces using Astral `uv` as the ultra-fast (10-100x), memory-efficient replacement for pip, virtualenv, and poetry.
+description: Use when managing Python environments, installing packages, creating virtualenvs, running scripts, or configuring Python dependencies via uv.
 ---
 
 # `uv` Python Package & Environment Management (Astral Standard)
@@ -52,3 +51,4 @@ uv add --dev pytest black ruff
 # Sync project dependencies
 uv sync
 ```
+
