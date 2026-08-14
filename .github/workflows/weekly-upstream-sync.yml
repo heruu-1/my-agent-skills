@@ -1,0 +1,37 @@
+﻿name: Weekly Upstream Sync & Cloud Auto-Update
+
+on:
+  schedule:
+    # Run automatically every Monday at 02:00 AM UTC (09:00 AM WIB)
+    - cron: '0 2 * * 1'
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+permissions:
+  contents: write
+
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git Identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream Remotes and Sync
+        run: |
+          # 1. Fetch from Addy Osmani upstream
+          git remote add upstream https://github.com/addyosmani/agent-skills.git || git remote set-url upstream https://github.com/addyosmani/agent-skills.git
+          git fetch upstream main
+
+          # 2. Merge changes while preserving personal skills and configurations
+          git merge upstream/main -m "chore(auto-sync): merge latest upstream agent skills from addyosmani" --allow-unrelated-histories || true
+
+          # 3. Push updated suite to personal repo
+          git push origin main || echo "No new updates to push."
