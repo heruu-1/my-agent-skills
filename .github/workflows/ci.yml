@@ -1,0 +1,30 @@
+﻿name: CI & Skills Validation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Skills, Commands, and Architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate all skills
+        run: node scripts/validate-skills.js
+
+      - name: Validate commands
+        run: node scripts/validate-commands.js
+
+      - name: Validate references links
+        run: node scripts/validate-reference-links.js
+
+      - name: Validate artifact paths
+        run: node scripts/validate-artifact-paths.js
