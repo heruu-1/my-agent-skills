@@ -5,7 +5,7 @@ This repository is also a [Codex plugin](https://developers.openai.com/codex/plu
 ## Install
 
 ```bash
-codex plugin marketplace add addyosmani/agent-skills
+codex plugin marketplace add heruu-1/my-agent-skills
 codex plugin add agent-skills@agent-skills
 ```
 
@@ -22,7 +22,7 @@ codex plugin add agent-skills@agent-skills
 
 ## Usage
 
-After install, invoke a skill in Codex chat with `@` (e.g. `@spec-driven-development`) or just describe the task and let Codex pick the right skill. All 24 skills under `skills/` are available.
+After install, invoke a skill in Codex chat with `@` (e.g. `@spec-driven-development`) or just describe the task and let Codex pick the right skill. All 39 skills under `skills/` are available.
 
 ## How it works
 

@@ -49,7 +49,7 @@ your-project/
 ```
 
 **Source of truth for the agent:** `.cursor/skills/`.  
-Treat `agent-skills/skills/` (or a cloned [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)) as **upstream** — sync into `.cursor/skills/`, do not edit only upstream and expect Cursor to see it.
+Treat `agent-skills/skills/` (or a cloned [heruu-1/my-agent-skills](https://github.com/heruu-1/my-agent-skills)) as the distribution source — sync into `.cursor/skills/`, do not edit only the source clone and expect Cursor to see it.
 
 ---
 
