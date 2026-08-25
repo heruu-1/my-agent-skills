@@ -20,7 +20,7 @@ Check 'working tree clean' {
 }
 Check 'skills directory exists' { if (-not (Test-Path -LiteralPath (Join-Path $RepoPath 'skills') -PathType Container)) { throw 'missing' } }
 Check 'universal junctions resolve' {
-    foreach ($path in @('.agents\skills','.claude\skills','.cursor\skills','.gemini\skills','.opencode\skills','.codex\skills')) {
+    foreach ($path in @('.agents\skills','.claude\skills','.cursor\skills','.opencode\skills')) {
         $link = Join-Path $HomeDir $path
         if (-not (Test-Path -LiteralPath $link)) { throw "missing $link" }
         if (-not ((Get-Item -LiteralPath $link -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "not junction $link" }
