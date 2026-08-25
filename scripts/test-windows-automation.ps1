@@ -28,11 +28,22 @@ try {
         if (-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "$relativePath is not a junction" }
         if (([string]$item.Target).TrimEnd('\') -ne (Join-Path $repoRoot 'skills').TrimEnd('\')) { throw "$relativePath has the wrong target" }
     }
-    $protectionPreview = & powershell.exe -NoProfile -File (Join-Path $repoRoot 'configure-github-protection.ps1') -WhatIf
+    $payloadPath = Join-Path $testRoot 'branch-protection.json'
+    $protectionPreview = & powershell.exe -NoProfile -File (Join-Path $repoRoot 'configure-github-protection.ps1') `
+        -WhatIf `
+        -PayloadOutputPath $payloadPath
     $protectionText = $protectionPreview -join "`n"
     if ($LASTEXITCODE -ne 0 -or $protectionText -notmatch 'WHATIF: would PUT branch protection') {
         throw 'branch-protection WhatIf validation failed'
     }
+    if (-not (Test-Path -LiteralPath $payloadPath -PathType Leaf)) {
+        throw 'branch-protection payload was not written'
+    }
+    $payloadBytes = [IO.File]::ReadAllBytes($payloadPath)
+    if ($payloadBytes.Length -ge 3 -and $payloadBytes[0] -eq 0xEF -and $payloadBytes[1] -eq 0xBB -and $payloadBytes[2] -eq 0xBF) {
+        throw 'branch-protection payload contains a UTF-8 BOM'
+    }
+    Get-Content -LiteralPath $payloadPath -Raw | ConvertFrom-Json | Out-Null
     Write-Output 'WINDOWS AUTOMATION TEST PASSED'
 } finally {
     if (Test-Path -LiteralPath $testRoot) {

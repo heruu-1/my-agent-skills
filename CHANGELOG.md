@@ -2,6 +2,13 @@
 
 All notable changes to this distribution are documented here. Versions follow Semantic Versioning.
 
+## [0.7.7] - 2026-08-25
+
+### Fixed
+
+- Write GitHub branch-protection payloads as UTF-8 without a byte-order mark on Windows PowerShell 5.1.
+- Add a regression test that parses the generated payload and rejects UTF-8 BOM bytes.
+
 ## [0.7.6] - 2026-08-25
 
 ### Added
