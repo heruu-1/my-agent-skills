@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
   "repository": "https://github.com/heruu-1/my-agent-skills",
-  "release": "0.7.4",
+  "release": "0.7.5",
   "total_skills": 39,
   "upstream_skills": 24,
   "extension_skills": 15,
   "provenance": {
     "source_repository": "https://github.com/heruu-1/my-agent-skills",
-    "source_commit": "1deae24",
+    "source_commit": "8d8a654",
     "last_verified": "2026-08-25",
     "compatibility": ["codex", "claude-code", "cursor", "gemini-cli", "antigravity", "opencode"]
   },
