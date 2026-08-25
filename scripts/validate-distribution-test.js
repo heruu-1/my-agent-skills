@@ -1,9 +1,10 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const path = require('node:path');
 const { validateDistribution, validateInstallText } = require('./validate-distribution');
 
 test('the checked-in distribution has complete metadata and install routing', () => {
-  const result = validateDistribution(__dirname + '\\..');
+  const result = validateDistribution(path.join(__dirname, '..'));
   assert.deepEqual(result.errors, []);
 });
 
