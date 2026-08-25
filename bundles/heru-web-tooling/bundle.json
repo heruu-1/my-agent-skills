@@ -1,6 +1,6 @@
 {
   "name": "heru-web-tooling",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Laravel architecture, modern frontend UI, and reproducible Python package management.",
   "skills": [
     "laravel-service-action-architecture",

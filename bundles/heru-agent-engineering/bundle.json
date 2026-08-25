@@ -1,6 +1,6 @@
 {
   "name": "heru-agent-engineering",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Agent architecture, memory, context, orchestration, and structured-agent workflows.",
   "skills": [
     "agent-memory-and-instincts",
