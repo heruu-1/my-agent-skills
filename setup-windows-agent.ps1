@@ -27,7 +27,7 @@ if ($PSCmdlet.ShouldProcess('agent discovery links', 'Create and verify junction
     if ($LASTEXITCODE -ne 0) { throw "Link setup failed with exit code $LASTEXITCODE" }
 }
 
-Write-Output '[INFO] Gemini registration is intentionally manual because the existing Gemini profile contains same-named skills. Run gemini skills link only after reviewing overwrite prompts.'
+Write-Output '[INFO] Gemini discovers shared skills through .agents\skills; duplicate direct junctions are removed while independent Gemini skills are preserved.'
 
 if ($PSCmdlet.ShouldProcess('AutoUpdateAgentSkills', 'Register weekly update task')) {
     & powershell.exe -NoProfile -File $setupTask

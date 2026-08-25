@@ -41,3 +41,11 @@ jobs:
         run: node --test scripts/*-test.js
       - name: Run deterministic routing evals
         run: node scripts/run-evals.js --min-rank1 80
+  windows-automation:
+    name: Validate Windows automation
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Test junction setup and Gemini reconciliation
+        shell: powershell
+        run: .\scripts\test-windows-automation.ps1

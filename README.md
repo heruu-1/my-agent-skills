@@ -1,12 +1,10 @@
-# Agent Skills
+# Heru Agent Skills
 
-**Production-grade engineering skills for AI coding agents.**
+**Production-grade engineering, research, and ML workflows for AI coding agents.**
 
-Skills encode the workflows, quality gates, and best practices that senior engineers use when building software. These ones are packaged so AI agents follow them consistently across every phase of development.
+Skills encode the workflows, quality gates, and best practices that senior engineers use when building software. This public distribution combines the upstream Agent Skills lifecycle with Heru's research, ML, agent-engineering, and Windows automation extensions.
 
-<a href="https://trendshift.io/repositories/25200" target="_blank"><img src="https://trendshift.io/api/badge/repositories/25200" alt="addyosmani%2Fagent-skills | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-![Addy's Agent Skills](https://addyosmani.com/assets/images/addys-agent-skills.jpg)
+Maintained by [Muhammad Heru](https://github.com/heruu-1) and derived from [Addy Osmani's Agent Skills](https://github.com/addyosmani/agent-skills) under the MIT license.
 
 ```
   DEFINE          PLAN           BUILD          VERIFY         REVIEW          SHIP
@@ -372,7 +370,8 @@ agent-skills/
 │   ├── observability-and-instrumentation/ # Ship
 │   ├── shipping-and-launch/           #   Ship
 │   └── using-agent-skills/            #   Meta: how to use this pack
-├── agents/                            # 4 specialist personas
+├── agents/                            # 6 specialist personas
+├── bundles/                           # 3 buildable Heru extension bundles
 ├── references/                        # 7 supplementary checklists
 ├── hooks/                             # Session lifecycle hooks
 ├── .claude/commands/                  # 8 slash commands (Claude Code)
@@ -408,12 +407,25 @@ See [docs/skill-anatomy.md](docs/skill-anatomy.md) for the format specification 
 
 ---
 
-## Team
+## Repository governance
+
+`main` is designed to require the Linux and Windows CI checks. Preview the protection payload with:
+
+```powershell
+.\configure-github-protection.ps1 -WhatIf
+```
+
+After authenticating GitHub CLI with repository administration access, apply it with `.\configure-github-protection.ps1`.
+
+---
+
+## Maintainer and upstream contributors
 
 agent-skills is built and maintained by:
 
 | | Name | GitHub | Role |
 |---|------|--------|------|
+| <img src="https://github.com/heruu-1.png?size=120" width="60" height="60" alt="Muhammad Heru"> | **Muhammad Heru** | [@heruu-1](https://github.com/heruu-1) | Distribution maintainer |
 | <img src="https://github.com/addyosmani.png?size=120" width="60" height="60" alt="Addy Osmani"> | **Addy Osmani** | [@addyosmani](https://github.com/addyosmani) | Creator |
 | <img src="https://github.com/federicobartoli.png?size=120" width="60" height="60" alt="Federico Bartoli"> | **Federico Bartoli** | [@federicobartoli](https://github.com/federicobartoli) | Collaborator |
 | <img src="https://github.com/nucliweb.png?size=120" width="60" height="60" alt="Joan León"> | **Joan León** | [@nucliweb](https://github.com/nucliweb) | Collaborator |

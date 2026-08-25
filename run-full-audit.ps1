@@ -34,6 +34,17 @@ Check 'universal junctions resolve' {
         if ($resolved -ne $expected) { throw "wrong target $link -> $resolved (expected $expected)" }
     }
 }
+Check 'Gemini has no duplicate Heru junctions' {
+    $geminiSkills = Join-Path $HomeDir '.gemini\skills'
+    if (-not (Test-Path -LiteralPath $geminiSkills -PathType Container)) { return }
+    $duplicates = foreach ($item in Get-ChildItem -LiteralPath $geminiSkills -Directory -Force) {
+        if (-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) { continue }
+        $source = Join-Path $expectedSkills $item.Name
+        if (-not (Test-Path -LiteralPath $source -PathType Container)) { continue }
+        if (([string]$item.Target).TrimEnd('\') -eq (Resolve-Path -LiteralPath $source).Path.TrimEnd('\')) { $item.FullName }
+    }
+    if ($duplicates) { throw "duplicate Gemini junctions: $($duplicates -join ', ')" }
+}
 Check 'scheduled task readable' {
     $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction Stop
     $info = Get-ScheduledTaskInfo -TaskName $TaskName -ErrorAction Stop

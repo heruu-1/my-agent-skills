@@ -101,7 +101,7 @@ function validateDistribution(rootPath) {
     errors.push(...validateInstallText(fs.readFileSync(filePath, 'utf8'), relativePath));
   }
 
-  for (const workflow of ['.github/workflows/ci.yml', '.github/workflows/weekly-upstream-sync.yml']) {
+  for (const workflow of ['.github/workflows/ci.yml', '.github/workflows/weekly-upstream-sync.yml', '.github/workflows/publish-release.yml']) {
     if (!fs.existsSync(path.join(root, workflow))) errors.push(`${workflow}: workflow missing`);
   }
   const readme = fs.existsSync(path.join(root, 'README.md')) ? fs.readFileSync(path.join(root, 'README.md'), 'utf8') : '';

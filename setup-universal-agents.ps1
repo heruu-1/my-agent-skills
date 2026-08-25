@@ -31,10 +31,27 @@ function Ensure-Junction([string]$Link, [string]$Target) {
     if ($PSCmdlet.ShouldProcess($Link, "Create junction to $Target")) {
         New-Item -ItemType Directory -Force -Path (Split-Path -Parent $Link) | Out-Null
         New-Item -ItemType Junction -Path $Link -Target $Target | Out-Null
-        $resolved = (Resolve-Path -LiteralPath $Link).Path
+        $resolved = ([string](Get-Item -LiteralPath $Link -Force).Target).TrimEnd('\')
         $expected = (Resolve-Path -LiteralPath $Target).Path
         if ($resolved -ne $expected) { throw "Junction verification failed: $Link" }
         Write-Output "[CREATED] $Link -> $expected"
+    }
+}
+
+function Remove-DuplicateGeminiJunctions([string]$GeminiSkillsRoot, [string]$SourceSkillsRoot) {
+    if (-not (Test-Path -LiteralPath $GeminiSkillsRoot -PathType Container)) { return }
+    foreach ($item in Get-ChildItem -LiteralPath $GeminiSkillsRoot -Directory -Force) {
+        if (-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) { continue }
+        $source = Join-Path $SourceSkillsRoot $item.Name
+        if (-not (Test-Path -LiteralPath $source -PathType Container)) { continue }
+        $resolved = ([string]$item.Target).TrimEnd('\')
+        $expected = (Resolve-Path -LiteralPath $source).Path.TrimEnd('\')
+        if ($resolved -ne $expected) { continue }
+        if ($PSCmdlet.ShouldProcess($item.FullName, 'Remove duplicate Gemini skill junction')) {
+            $item.Delete()
+            if (Test-Path -LiteralPath $item.FullName) { throw "Duplicate Gemini junction remains: $($item.FullName)" }
+            Write-Output "[REMOVED DUPLICATE] $($item.FullName) -> $expected"
+        }
     }
 }
 
@@ -44,6 +61,7 @@ Ensure-Junction (Join-Path $HomeDir '.claude\skills') $AgentSkillsDir
 Ensure-Junction (Join-Path $HomeDir '.cursor\skills') $AgentSkillsDir
 Ensure-Junction (Join-Path $HomeDir '.opencode\skills') $AgentSkillsDir
 Write-Output '[INFO] .codex\skills is not modified; current Codex discovery uses .agents\skills.'
+Remove-DuplicateGeminiJunctions (Join-Path $HomeDir '.gemini\skills') $AgentSkillsDir
 
 $referenceDir = Join-Path $FullRepoDir 'references'
 Ensure-Junction (Join-Path $HomeDir '.agents\references') $referenceDir
@@ -53,4 +71,4 @@ if (Test-Path -LiteralPath $NvidiaDir -PathType Container) {
 } else {
     Write-Output "[INFO] NVIDIA skills not installed; skipped."
 }
-Write-Output '[INFO] Gemini uses its native `gemini skills link` registration because the existing .gemini\skills directory contains independent skills.'
+Write-Output '[INFO] Gemini discovers shared skills through .agents\skills; independent .gemini\skills entries are preserved.'
