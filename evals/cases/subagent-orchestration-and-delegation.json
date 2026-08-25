@@ -1,0 +1,5 @@
+{
+  "skill_name": "subagent-orchestration-and-delegation",
+  "trigger": {"positive": [{"prompt": "Delegate a focused security audit to specialized subagents", "top_k": 3}, {"prompt": "Orchestrate parallel agents for research and code review", "top_k": 3}, {"prompt": "Split this task into safe subagent responsibilities and handoffs", "top_k": 3}], "negative": [{"prompt": "Design the internal LangGraph state machine", "owner": "langgraph-stateful-agent-design"}, {"prompt": "Run an evaluation of an existing skill", "owner": "using-agent-skills"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Delegate this repository audit into bounded subagent responsibilities.", "expected_output": "A delegation plan with scopes, inputs, outputs, and integration checks.", "expectations": ["Each subagent has a non-overlapping responsibility and explicit handoff artifact."]}]
+}

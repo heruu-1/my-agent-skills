@@ -1,0 +1,5 @@
+{
+  "skill_name": "ml-model-evaluation-and-metrics",
+  "trigger": {"positive": [{"prompt": "Evaluate this classifier with precision recall and a confusion matrix", "top_k": 3}, {"prompt": "Calculate ML benchmark metrics and analyze model errors", "top_k": 3}, {"prompt": "Compare models using appropriate evaluation metrics", "top_k": 3}], "negative": [{"prompt": "Scale features and prevent data leakage", "owner": "ml-data-preprocessing-and-leakage-prevention"}, {"prompt": "Train and optimize a PyTorch neural network", "owner": "neural-network-training-recipe"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Evaluate two classification models and explain the error analysis.", "expected_output": "Metrics, comparison, and an actionable error analysis.", "expectations": ["Metrics are selected for the problem and not reported without interpretation."]}]
+}

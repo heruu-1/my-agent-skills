@@ -1,0 +1,5 @@
+{
+  "skill_name": "smolagents-code-first-agents",
+  "trigger": {"positive": [{"prompt": "Build a lightweight Hugging Face smolagents code-first agent", "top_k": 3}, {"prompt": "Implement an agent that thinks in executable Python code using smolagents", "top_k": 3}, {"prompt": "Choose smolagents for a small code-first automation workflow", "top_k": 3}], "negative": [{"prompt": "Build a production PydanticAI agent with strict schemas", "owner": "pydantic-ai-structured-agents"}, {"prompt": "Design a persistent LangGraph multi-agent graph", "owner": "langgraph-stateful-agent-design"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Design a minimal smolagents code-first workflow with bounded tools.", "expected_output": "A small agent design with explicit tools and execution limits.", "expectations": ["The design keeps code execution and tool permissions bounded."]}]
+}

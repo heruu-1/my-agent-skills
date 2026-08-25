@@ -1,0 +1,5 @@
+{
+  "skill_name": "laravel-service-action-architecture",
+  "trigger": {"positive": [{"prompt": "Refactor this Laravel controller into thin controllers and fat actions", "top_k": 3}, {"prompt": "Design a Laravel PHP service action architecture", "top_k": 3}, {"prompt": "Move business logic out of a Laravel controller safely", "top_k": 3}], "negative": [{"prompt": "Create an accessible React shadcn UI", "owner": "shadcn-ui-engineering"}, {"prompt": "Design a REST API contract", "owner": "api-and-interface-design"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Refactor a Laravel endpoint using thin controllers and testable actions.", "expected_output": "A Laravel action boundary with validation and tests.", "expectations": ["Controller responsibilities and action responsibilities are separated."]}]
+}

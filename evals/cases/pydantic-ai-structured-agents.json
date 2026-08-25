@@ -1,0 +1,5 @@
+{
+  "skill_name": "pydantic-ai-structured-agents",
+  "trigger": {"positive": [{"prompt": "Build a PydanticAI agent with strict structured output", "top_k": 3}, {"prompt": "Add dependency injection and schema validation to this AI agent", "top_k": 3}, {"prompt": "Design type-safe tool calling for a Pydantic AI workflow", "top_k": 3}], "negative": [{"prompt": "Build a lightweight smolagents code-first agent", "owner": "smolagents-code-first-agents"}, {"prompt": "Design a LangGraph state machine with checkpoints", "owner": "langgraph-stateful-agent-design"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Design a type-safe PydanticAI agent with validated tool arguments.", "expected_output": "A structured agent design with schemas, dependencies, and safe tools.", "expectations": ["Model output and tool arguments are validated at the boundary."]}]
+}

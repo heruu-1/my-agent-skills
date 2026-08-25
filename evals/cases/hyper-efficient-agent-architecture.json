@@ -1,0 +1,5 @@
+{
+  "skill_name": "hyper-efficient-agent-architecture",
+  "trigger": {"positive": [{"prompt": "Orchestrate CodeAct, Actor-Critic, LangGraph, and speculative drafting engines", "top_k": 3}, {"prompt": "Design a hyper-efficient multi-engine agent architecture", "top_k": 3}, {"prompt": "Choose between speculative drafting and stateful agent execution", "top_k": 3}], "negative": [{"prompt": "Implement a normal LangGraph state machine", "owner": "langgraph-stateful-agent-design"}, {"prompt": "Delegate a focused security audit to a subagent", "owner": "subagent-orchestration-and-delegation"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Design an efficient multi-engine agent workflow with explicit handoffs.", "expected_output": "A bounded architecture with engine selection and state transitions.", "expectations": ["The design states when each engine is selected and how state is transferred."]}]
+}

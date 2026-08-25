@@ -1,0 +1,5 @@
+{
+  "skill_name": "applied-ml-system-design",
+  "trigger": {"positive": [{"prompt": "Design an ML architecture comparing heuristics, classical ML, and an LLM", "top_k": 3}, {"prompt": "Choose an inference pipeline for this machine learning product", "top_k": 3}, {"prompt": "Decide between deep learning and a simpler model for this dataset", "top_k": 3}], "negative": [{"prompt": "Normalize missing values and split a training dataset", "owner": "ml-data-preprocessing-and-leakage-prevention"}, {"prompt": "Calculate precision recall and a confusion matrix", "owner": "ml-model-evaluation-and-metrics"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Design a production ML system and explain the model-selection tradeoffs.", "expected_output": "A justified ML architecture and inference pipeline.", "expectations": ["The design compares alternatives against explicit constraints."]}]
+}

@@ -1,0 +1,5 @@
+{
+  "skill_name": "academic-journal-latex-workflow",
+  "trigger": {"positive": [{"prompt": "Draft and debug a thesis chapter in LaTeX", "top_k": 3}, {"prompt": "Format this academic journal paper with citations and LaTeX", "top_k": 3}, {"prompt": "Fix the compilation errors in my conference article LaTeX", "top_k": 3}], "negative": [{"prompt": "Build a Laravel API service", "owner": "laravel-service-action-architecture"}, {"prompt": "Train a PyTorch neural network", "owner": "neural-network-training-recipe"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Turn my thesis chapter requirements into a reproducible LaTeX workflow.", "expected_output": "A structured LaTeX workflow with validation and citations.", "expectations": ["The academic document context is identified before proposing structure."]}]
+}

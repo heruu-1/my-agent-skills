@@ -1,0 +1,5 @@
+{
+  "skill_name": "agent-memory-and-instincts",
+  "trigger": {"positive": [{"prompt": "Distill this agent session into persistent architectural lessons", "top_k": 3}, {"prompt": "Set up long-term agent memory without repeating coding mistakes", "top_k": 3}, {"prompt": "Record reusable engineering instincts from this completed task", "top_k": 3}], "negative": [{"prompt": "Design a LangGraph checkpoint state machine", "owner": "langgraph-stateful-agent-design"}, {"prompt": "Plan a repository change into ordered tasks", "owner": "planning-and-task-breakdown"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Extract durable lessons from this agent run and propose a safe memory note.", "expected_output": "A concise, reusable memory note with evidence and boundaries.", "expectations": ["Transient details are separated from durable engineering lessons."]}]
+}

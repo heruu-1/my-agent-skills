@@ -1,0 +1,5 @@
+{
+  "skill_name": "neural-network-training-recipe",
+  "trigger": {"positive": [{"prompt": "Train and debug a PyTorch neural network", "top_k": 3}, {"prompt": "Optimize a TensorFlow deep learning training loop", "top_k": 3}, {"prompt": "Diagnose overfitting in this neural network training run", "top_k": 3}], "negative": [{"prompt": "Design the overall ML system and inference architecture", "owner": "applied-ml-system-design"}, {"prompt": "Calculate model precision recall and confusion matrices", "owner": "ml-model-evaluation-and-metrics"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Diagnose a neural network training run and propose a reproducible fix.", "expected_output": "A training diagnosis with controlled experiments and metrics.", "expectations": ["The diagnosis distinguishes data, optimization, and model-capacity causes."]}]
+}

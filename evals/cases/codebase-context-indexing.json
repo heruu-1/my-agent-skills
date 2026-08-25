@@ -1,0 +1,5 @@
+{
+  "skill_name": "codebase-context-indexing",
+  "trigger": {"positive": [{"prompt": "Index this large codebase for fast pinpoint context retrieval", "top_k": 3}, {"prompt": "Reduce agent token usage by building a local vector search index", "top_k": 3}, {"prompt": "Find the relevant files in this huge repository efficiently", "top_k": 3}], "negative": [{"prompt": "Use persistent checkpoints in a multi-agent workflow", "owner": "langgraph-stateful-agent-design"}, {"prompt": "Simplify this working implementation for readability", "owner": "code-simplification"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Create a retrieval plan for a large repository while keeping agent context small.", "expected_output": "A codebase indexing and retrieval plan with measurable context savings.", "expectations": ["The plan identifies indexing scope and retrieval boundaries."]}]
+}

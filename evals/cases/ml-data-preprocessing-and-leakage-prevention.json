@@ -1,0 +1,5 @@
+{
+  "skill_name": "ml-data-preprocessing-and-leakage-prevention",
+  "trigger": {"positive": [{"prompt": "Prepare this ML dataset with missing values and feature scaling", "top_k": 3}, {"prompt": "Prevent train-test leakage when encoding categorical features", "top_k": 3}, {"prompt": "Choose a safe data split and preprocessing pipeline", "top_k": 3}], "negative": [{"prompt": "Evaluate a model with confusion matrices and metrics", "owner": "ml-model-evaluation-and-metrics"}, {"prompt": "Design the architecture of an ML inference system", "owner": "applied-ml-system-design"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Build a leakage-safe preprocessing pipeline for a supervised ML dataset.", "expected_output": "A split-first preprocessing plan that handles missing values and scaling safely.", "expectations": ["The split boundary is established before fitting transformations."]}]
+}

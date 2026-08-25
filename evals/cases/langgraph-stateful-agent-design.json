@@ -1,0 +1,5 @@
+{
+  "skill_name": "langgraph-stateful-agent-design",
+  "trigger": {"positive": [{"prompt": "Design a LangGraph state machine with persistent checkpoints", "top_k": 3}, {"prompt": "Debug a cyclical multi-agent workflow with human approval", "top_k": 3}, {"prompt": "Implement a stateful agent graph with resumable execution", "top_k": 3}], "negative": [{"prompt": "Build a PydanticAI agent with structured output", "owner": "pydantic-ai-structured-agents"}, {"prompt": "Use a lightweight Hugging Face smolagents code-first agent", "owner": "smolagents-code-first-agents"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Design a resumable LangGraph workflow with human-in-the-loop validation.", "expected_output": "A state graph with checkpoints, transitions, and approval boundaries.", "expectations": ["State, transitions, persistence, and recovery behavior are specified."]}]
+}

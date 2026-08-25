@@ -1,0 +1,5 @@
+{
+  "skill_name": "shadcn-ui-engineering",
+  "trigger": {"positive": [{"prompt": "Build an accessible React interface with shadcn and Tailwind", "top_k": 3}, {"prompt": "Create a responsive shadcn UI component in Next.js", "top_k": 3}, {"prompt": "Implement a WCAG-friendly modern frontend using shadcn/ui", "top_k": 3}], "negative": [{"prompt": "Refactor Laravel business logic into actions", "owner": "laravel-service-action-architecture"}, {"prompt": "Test a browser page with Chrome DevTools", "owner": "browser-testing-with-devtools"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Design an accessible responsive shadcn interface for this dashboard.", "expected_output": "A responsive UI plan with accessible components and interaction states.", "expectations": ["Accessibility, responsiveness, and component boundaries are explicit."]}]
+}

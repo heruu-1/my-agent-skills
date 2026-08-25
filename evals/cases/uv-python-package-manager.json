@@ -1,0 +1,5 @@
+{
+  "skill_name": "uv-python-package-manager",
+  "trigger": {"positive": [{"prompt": "Set up a Python project and dependencies with uv", "top_k": 3}, {"prompt": "Create a uv virtual environment and run the Python tests", "top_k": 3}, {"prompt": "Configure uv lockfile and package management for this project", "top_k": 3}], "negative": [{"prompt": "Train a PyTorch neural network", "owner": "neural-network-training-recipe"}, {"prompt": "Prepare an ML dataset and prevent leakage", "owner": "ml-data-preprocessing-and-leakage-prevention"}]},
+  "evals": [{"id": 1, "kind": "dialogue", "prompt": "Set up this Python repository reproducibly with uv and a locked environment.", "expected_output": "A uv-based environment and dependency workflow with verification commands.", "expectations": ["The package manager, lockfile, and test command are kept consistent."]}]
+}

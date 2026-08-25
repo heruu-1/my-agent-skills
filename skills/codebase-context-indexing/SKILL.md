@@ -1,6 +1,6 @@
 ---
 name: codebase-context-indexing
-description: Use when managing large codebases, optimizing token consumption, building local vector search indexes, or retrieving pinpoint code context for AI agents.
+description: Use when managing large codebases, optimizing agent token consumption, building local vector search indexes, or retrieving pinpoint code context and relevant files for AI agents.
 ---
 
 # Codebase Context Indexing & Token Optimization
