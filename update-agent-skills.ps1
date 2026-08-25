@@ -6,7 +6,12 @@ param(
 
 $ErrorActionPreference = 'Stop'
 if (-not $ManifestPath) { $ManifestPath = Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) 'automation\repos.json' }
-if (-not $LogPath) { $LogPath = Join-Path (Split-Path -Parent $MyInvocation.MyCommand.Path) 'sync.log' }
+if (-not $LogPath) {
+    $localAppData = [Environment]::GetFolderPath('LocalApplicationData')
+    $LogPath = Join-Path $localAppData 'HeruAgentSkills\sync.log'
+}
+$logParent = Split-Path -Parent $LogPath
+if ($logParent -and -not (Test-Path -LiteralPath $logParent)) { New-Item -ItemType Directory -Force -Path $logParent | Out-Null }
 $exitCode = 0
 $timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ssK'
 
