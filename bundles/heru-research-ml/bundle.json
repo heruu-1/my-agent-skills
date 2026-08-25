@@ -1,0 +1,12 @@
+{
+  "name": "heru-research-ml",
+  "version": "0.7.1",
+  "description": "Academic writing, machine-learning system design, preprocessing, evaluation, and training workflows.",
+  "skills": [
+    "academic-journal-latex-workflow",
+    "applied-ml-system-design",
+    "ml-data-preprocessing-and-leakage-prevention",
+    "ml-model-evaluation-and-metrics",
+    "neural-network-training-recipe"
+  ]
+}

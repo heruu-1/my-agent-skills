@@ -72,6 +72,26 @@ function validateDistribution(rootPath) {
     errors.push(`plugin version ${plugin.version} does not match catalog release ${catalog.release}`);
   }
 
+  const bundlesRoot = path.join(root, 'bundles');
+  if (!fs.existsSync(bundlesRoot)) {
+    errors.push('bundles/: directory missing');
+  } else if (catalog) {
+    const catalogByBundle = new Map();
+    for (const skill of catalog.skills) {
+      if (!catalogByBundle.has(skill.bundle)) catalogByBundle.set(skill.bundle, []);
+      catalogByBundle.get(skill.bundle).push(skill.name);
+    }
+    for (const bundleName of catalogByBundle.keys()) {
+      const manifestPath = path.join(bundlesRoot, bundleName, 'bundle.json');
+      const manifest = readJson(manifestPath, errors);
+      if (!manifest) continue;
+      if (manifest.version !== catalog.release) errors.push(`${bundleName}: version does not match catalog release`);
+      const expected = [...catalogByBundle.get(bundleName)].sort();
+      const actual = Array.isArray(manifest.skills) ? [...manifest.skills].sort() : [];
+      if (JSON.stringify(actual) !== JSON.stringify(expected)) errors.push(`${bundleName}: skills do not match catalog`);
+    }
+  }
+
   for (const relativePath of INSTALL_DOCS) {
     const filePath = path.join(root, relativePath);
     if (!fs.existsSync(filePath)) {

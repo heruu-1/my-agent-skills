@@ -1,0 +1,14 @@
+{
+  "name": "heru-agent-engineering",
+  "version": "0.7.1",
+  "description": "Agent architecture, memory, context, orchestration, and structured-agent workflows.",
+  "skills": [
+    "agent-memory-and-instincts",
+    "codebase-context-indexing",
+    "hyper-efficient-agent-architecture",
+    "langgraph-stateful-agent-design",
+    "pydantic-ai-structured-agents",
+    "smolagents-code-first-agents",
+    "subagent-orchestration-and-delegation"
+  ]
+}
