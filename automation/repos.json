@@ -1,0 +1,16 @@
+{
+  "repositories": [
+    {
+      "name": "my-agent-skills",
+      "path": "D:\\agent-skills",
+      "remote": "mybackup",
+      "branch": "main"
+    },
+    {
+      "name": "nvidia-skills",
+      "path": "D:\\nvidia-skills",
+      "remote": "origin",
+      "branch": "main"
+    }
+  ]
+}

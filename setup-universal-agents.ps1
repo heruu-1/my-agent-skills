@@ -1,58 +1,56 @@
-﻿$homeDir = "C:\Users\ACER"
-$agentSkillsDir = "D:\agent-skills"
-$skillsDir = "D:\agent-skills\skills"
-$nvidiaDir = "D:\nvidia-skills"
+[CmdletBinding(SupportsShouldProcess)]
+param(
+    [string]$HomeDir = '',
+    [string]$AgentSkillsDir = '',
+    [string]$FullRepoDir = '',
+    [string]$NvidiaDir = 'D:\nvidia-skills'
+)
 
-Write-Output "==================================================="
-Write-Output "    CONFIGURING UNIVERSAL AGENT COMPATIBILITY      "
-Write-Output "==================================================="
+$ErrorActionPreference = 'Stop'
+if (-not $HomeDir) { $HomeDir = [Environment]::GetFolderPath('UserProfile') }
+if (-not $FullRepoDir) { $FullRepoDir = Split-Path -Parent $MyInvocation.MyCommand.Path }
+if (-not $AgentSkillsDir) { $AgentSkillsDir = Join-Path $FullRepoDir 'skills' }
 
-# Helper function to create junction safely
-function Create-JunctionIfNotExist($linkPath, $targetPath) {
-    if (-not (Test-Path $linkPath)) {
-        $parent = Split-Path -Parent $linkPath
-        if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Force -Path $parent | Out-Null }
-        cmd /c mklink /J "$linkPath" "$targetPath" 2>&1 | Out-Null
-        Write-Output " [CREATED] $linkPath -> $targetPath"
-    } else {
-        Write-Output " [EXISTS]  $linkPath"
+function Assert-Target([string]$Path) {
+    if (-not (Test-Path -LiteralPath $Path -PathType Container)) {
+        throw "Target directory does not exist: $Path"
     }
 }
 
-# 1. Antigravity / Google Gemini Code Assist
-Write-Output "`n[1] Antigravity / Gemini Code Assist:"
-Create-JunctionIfNotExist "$homeDir\.gemini\config\plugins\agent-skills" $agentSkillsDir
-Create-JunctionIfNotExist "$homeDir\.gemini\config\plugins\nvidia-skills" $nvidiaDir
+function Ensure-Junction([string]$Link, [string]$Target) {
+    Assert-Target $Target
+    if (Test-Path -LiteralPath $Link) {
+        $item = Get-Item -LiteralPath $Link -Force
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+            $resolved = ([string]$item.Target).TrimEnd('\')
+            $expected = (Resolve-Path -LiteralPath $Target).Path.TrimEnd('\')
+            if ($resolved -eq $expected) { Write-Output "[OK] $Link -> $expected"; return }
+        }
+        throw "Existing path is not the expected junction: $Link"
+    }
+    if ($PSCmdlet.ShouldProcess($Link, "Create junction to $Target")) {
+        New-Item -ItemType Directory -Force -Path (Split-Path -Parent $Link) | Out-Null
+        New-Item -ItemType Junction -Path $Link -Target $Target | Out-Null
+        $resolved = (Resolve-Path -LiteralPath $Link).Path
+        $expected = (Resolve-Path -LiteralPath $Target).Path
+        if ($resolved -ne $expected) { throw "Junction verification failed: $Link" }
+        Write-Output "[CREATED] $Link -> $expected"
+    }
+}
 
-# 2. Claude Code / Anthropic
-Write-Output "`n[2] Claude Code:"
-Create-JunctionIfNotExist "$homeDir\.claude\skills" $skillsDir
-Create-JunctionIfNotExist "$homeDir\.claude\plugins\agent-skills" $agentSkillsDir
-Create-JunctionIfNotExist "$homeDir\.claude\plugins\nvidia-skills" $nvidiaDir
+Assert-Target $AgentSkillsDir
+Ensure-Junction (Join-Path $HomeDir '.agents\skills') $AgentSkillsDir
+Ensure-Junction (Join-Path $HomeDir '.claude\skills') $AgentSkillsDir
+Ensure-Junction (Join-Path $HomeDir '.cursor\skills') $AgentSkillsDir
+Ensure-Junction (Join-Path $HomeDir '.opencode\skills') $AgentSkillsDir
+Write-Output '[INFO] .codex\skills is not modified; current Codex discovery uses .agents\skills.'
 
-# 3. Universal .agents Directory (OpenCode, Codex, Terminal Agents, CLI Agents)
-Write-Output "`n[3] Universal .agents Standard:"
-Create-JunctionIfNotExist "$homeDir\.agents\skills" $skillsDir
-Create-JunctionIfNotExist "$homeDir\.agents\plugins\agent-skills" $agentSkillsDir
-Create-JunctionIfNotExist "$homeDir\.agents\plugins\nvidia-skills" $nvidiaDir
-Create-JunctionIfNotExist "$homeDir\.agents\references" "$agentSkillsDir\references"
+$referenceDir = Join-Path $FullRepoDir 'references'
+Ensure-Junction (Join-Path $HomeDir '.agents\references') $referenceDir
 
-# 4. Cursor IDE
-Write-Output "`n[4] Cursor IDE:"
-Create-JunctionIfNotExist "$homeDir\.cursor\skills" $skillsDir
-Create-JunctionIfNotExist "$homeDir\.cursor\rules" "$agentSkillsDir\references"
-
-# 5. OpenCode & Codex Plugin Paths
-Write-Output "`n[5] OpenCode & Codex Ecosystem:"
-Create-JunctionIfNotExist "$homeDir\.opencode\skills" $skillsDir
-Create-JunctionIfNotExist "$homeDir\.codex\skills" $skillsDir
-
-# 6. Cline & Roo Code & Continue (VS Code Extensions)
-Write-Output "`n[6] Cline, Roo Code & Continue Extension Paths:"
-Create-JunctionIfNotExist "$homeDir\.continue\skills" $skillsDir
-Create-JunctionIfNotExist "$homeDir\.cline\skills" $skillsDir
-Create-JunctionIfNotExist "$homeDir\.roo\skills" $skillsDir
-
-Write-Output "`n==================================================="
-Write-Output "  ALL AGENTS SUCCESSFULLY CONFIGURED AND LINKED!   "
-Write-Output "==================================================="
+if (Test-Path -LiteralPath $NvidiaDir -PathType Container) {
+    Write-Output "[INFO] NVIDIA skills detected at $NvidiaDir; no link was changed."
+} else {
+    Write-Output "[INFO] NVIDIA skills not installed; skipped."
+}
+Write-Output '[INFO] Gemini uses its native `gemini skills link` registration because the existing .gemini\skills directory contains independent skills.'
