@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "heru-agent-skills",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "source": {
         "source": "github",
         "repo": "heruu-1/my-agent-skills"
