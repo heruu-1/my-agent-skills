@@ -1,11 +1,15 @@
 [CmdletBinding()]
 param(
-    [string]$RepoPath = $PSScriptRoot,
+    [string]$RepoPath = '',
     [string]$HomeDir = ([Environment]::GetFolderPath('UserProfile')),
     [string]$TaskName = 'AutoUpdateAgentSkills'
 )
 
 $ErrorActionPreference = 'Stop'
+$scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+if (-not $RepoPath) { $RepoPath = $scriptRoot }
+$expectedSkills = (Resolve-Path -LiteralPath (Join-Path $RepoPath 'skills') -ErrorAction SilentlyContinue).Path
+$expectedUpdater = Join-Path $RepoPath 'update-agent-skills.ps1'
 $failures = [System.Collections.Generic.List[string]]::new()
 function Check([string]$Name, [scriptblock]$Action) {
     try { & $Action; Write-Output "[PASS] $Name" }
@@ -23,17 +27,25 @@ Check 'universal junctions resolve' {
     foreach ($path in @('.agents\skills','.claude\skills','.cursor\skills','.opencode\skills')) {
         $link = Join-Path $HomeDir $path
         if (-not (Test-Path -LiteralPath $link)) { throw "missing $link" }
-        if (-not ((Get-Item -LiteralPath $link -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "not junction $link" }
+        $item = Get-Item -LiteralPath $link -Force
+        if (-not ($item.Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "not junction $link" }
+        $resolved = ([string]$item.Target).TrimEnd('\')
+        $expected = $expectedSkills.TrimEnd('\')
+        if ($resolved -ne $expected) { throw "wrong target $link -> $resolved (expected $expected)" }
     }
 }
 Check 'scheduled task readable' {
     $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction Stop
     $info = Get-ScheduledTaskInfo -TaskName $TaskName -ErrorAction Stop
+    if (-not $task.Actions) { throw 'scheduled task has no action' }
+    if ($task.Actions.Arguments -notlike "*$expectedUpdater*") { throw "scheduled task does not invoke $expectedUpdater" }
     Write-Output ("  Task={0} State={1} LastResult={2} Next={3}" -f $task.TaskName, $task.State, $info.LastTaskResult, $info.NextRunTime)
 }
 Check 'registry configuration readable' {
     $key = Get-ItemProperty -Path 'HKCU:\Software\HeruAgentSkills' -ErrorAction Stop
-    if (-not $key.InstallRoot) { throw 'InstallRoot missing' }
+    if ($key.InstallRoot -ne $RepoPath) { throw "InstallRoot mismatch: $($key.InstallRoot)" }
+    if ($key.SkillsRoot -ne $expectedSkills) { throw "SkillsRoot mismatch: $($key.SkillsRoot)" }
+    if ($key.Updater -ne $expectedUpdater) { throw "Updater mismatch: $($key.Updater)" }
 }
 
 if ($failures.Count) {

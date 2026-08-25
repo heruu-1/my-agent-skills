@@ -216,7 +216,7 @@ Already installed? How you roll the pack out depends on your codebase. The **[Ad
 
 ---
 
-## All 24 Skills
+## All 39 Skills
 
 The commands above are entry points. This distribution includes 39 skills total: 24 upstream lifecycle skills plus 15 Heru extensions for research, ML, agent architecture, and web tooling. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 

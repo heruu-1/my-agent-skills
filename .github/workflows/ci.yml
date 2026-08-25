@@ -35,6 +35,8 @@ jobs:
         run: node scripts/validate-artifact-paths.js
       - name: Validate versions
         run: node scripts/validate-versions.js
+      - name: Validate public distribution
+        run: node scripts/validate-distribution.js
       - name: Run unit tests
         run: node --test scripts/*-test.js
       - name: Run deterministic routing evals

@@ -1,7 +1,16 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "repository": "https://github.com/heruu-1/my-agent-skills",
   "release": "0.7.1",
+  "total_skills": 39,
+  "upstream_skills": 24,
+  "extension_skills": 15,
+  "provenance": {
+    "source_repository": "https://github.com/heruu-1/my-agent-skills",
+    "source_commit": "1d71655",
+    "last_verified": "2026-08-25",
+    "compatibility": ["codex", "claude-code", "cursor", "gemini-cli", "antigravity", "opencode"]
+  },
   "skills": [
     {"name":"academic-journal-latex-workflow","bundle":"heru-research-ml","source_path":"skills/academic-journal-latex-workflow","license":"MIT","modified":true},
     {"name":"agent-memory-and-instincts","bundle":"heru-agent-engineering","source_path":"skills/agent-memory-and-instincts","license":"MIT","modified":true},

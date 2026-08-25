@@ -37,7 +37,7 @@ foreach ($repo in @($repos.repositories)) {
     $path = [string]$repo.path
     if (-not (Test-Path -LiteralPath $path -PathType Container)) {
         Write-Result $name 'SKIP' "Directory not found: $path"
-        $exitCode = [Math]::Max($exitCode, 2)
+        if ($exitCode -eq 0) { $exitCode = 2 }
         continue
     }
 
@@ -46,7 +46,7 @@ foreach ($repo in @($repos.repositories)) {
         if ($LASTEXITCODE -ne 0) { throw "Cannot inspect repository: $status" }
         if ($status) {
             Write-Result $name 'SKIP' 'Working tree is dirty; no fetch or mutation performed.'
-            $exitCode = [Math]::Max($exitCode, 2)
+            if ($exitCode -eq 0) { $exitCode = 2 }
             continue
         }
 
@@ -67,7 +67,7 @@ foreach ($repo in @($repos.repositories)) {
         & git -C $path merge-base --is-ancestor HEAD $tracking
         if ($LASTEXITCODE -ne 0) {
             Write-Result $name 'SKIP' "Non-fast-forward update requires review: HEAD=$local target=$remoteCommit"
-            $exitCode = [Math]::Max($exitCode, 2)
+            if ($exitCode -eq 0) { $exitCode = 2 }
             continue
         }
         if ($PSCmdlet.ShouldProcess($path, "Fast-forward to $tracking")) {
@@ -79,7 +79,8 @@ foreach ($repo in @($repos.repositories)) {
         }
     } catch {
         Write-Result $name 'ERROR' $_.Exception.Message
-        $exitCode = [Math]::Max($exitCode, 1)
+        # Operational failures have priority over advisory skips (exit 2).
+        $exitCode = 1
     }
 }
 

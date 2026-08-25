@@ -42,6 +42,7 @@ jobs:
           node scripts/validate-reference-links.js
           node scripts/validate-artifact-paths.js
           node scripts/validate-versions.js
+          node scripts/validate-distribution.js
           node --test scripts/*-test.js
           node scripts/run-evals.js --min-rank1 80
       - name: Open sync pull request
