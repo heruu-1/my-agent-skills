@@ -70,6 +70,21 @@ test('fails closed and aborts when a conflict is outside the fork-owned allowlis
   assert.equal(fs.readFileSync(path.join(repo, conflictPath), 'utf8'), 'fork customization\n');
 });
 
+test('rejects a dirty working tree without changing repository state', () => {
+  const repo = createConflictingRepository('README.md');
+  const before = git(repo, 'rev-parse', 'HEAD');
+  write(repo, 'local-only.txt', 'uncommitted work\n');
+
+  assert.throws(
+    () => mergeUpstream(repo, 'upstream'),
+    /Refusing to merge upstream into a dirty working tree/,
+  );
+
+  assert.equal(git(repo, 'rev-parse', 'HEAD'), before);
+  assert.equal(fs.existsSync(path.join(repo, '.git', 'MERGE_HEAD')), false);
+  assert.equal(fs.readFileSync(path.join(repo, 'local-only.txt'), 'utf8'), 'uncommitted work\n');
+});
+
 test('weekly sync workflow invokes the guarded upstream merge script', () => {
   const workflow = fs.readFileSync(
     path.join(__dirname, '..', '.github', 'workflows', 'weekly-upstream-sync.yml'),

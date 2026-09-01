@@ -34,6 +34,16 @@ function updateFile(filePath, transform, changedFiles) {
   changedFiles.push(filePath);
 }
 
+/**
+ * Refresh fork distribution counts and installer references from the current
+ * skills directory and catalog metadata.
+ *
+ * @param {string} rootPath - Distribution repository root path.
+ * @returns {{changedFiles: string[], totalSkills: number, upstreamSkills: number}}
+ * Relative paths changed and the newly discovered total and upstream counts.
+ * @throws {Error} If required files cannot be read, catalog JSON is invalid,
+ * filesystem writes fail, or extension skills exceed discovered skills.
+ */
 function refreshDistribution(rootPath) {
   const root = path.resolve(rootPath);
   const catalogPath = path.join(root, 'catalog', 'skills.json');
