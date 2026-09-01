@@ -5,6 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
+const { detectDistributionChanges } = require('./detect-distribution-changes');
 const { FORK_OWNED_CONFLICTS, mergeUpstream } = require('./merge-upstream');
 const { INSTALL_DOCS } = require('./validate-distribution');
 
@@ -113,14 +114,41 @@ test('weekly sync keeps main as the pull request base and uses a separate sync b
   assert.doesNotMatch(workflow, /git checkout -B automation\/upstream-sync/);
 });
 
-test('weekly sync skips pull request creation when the merged tree is unchanged', () => {
+test('detects unchanged and changed distribution trees relative to the base ref', () => {
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'detect-distribution-changes-'));
+  git(repo, 'init', '-b', 'main');
+  git(repo, 'config', 'user.name', 'Distribution Change Test');
+  git(repo, 'config', 'user.email', 'distribution-change@example.invalid');
+  git(repo, 'config', 'core.autocrlf', 'false');
+  write(repo, 'README.md', 'base\n');
+  git(repo, 'add', '.');
+  git(repo, 'commit', '-m', 'base');
+  git(repo, 'update-ref', 'refs/remotes/origin/main', 'HEAD');
+
+  assert.equal(detectDistributionChanges(repo, 'origin/main'), false);
+
+  write(repo, 'README.md', 'changed\n');
+  assert.equal(detectDistributionChanges(repo, 'origin/main'), true);
+});
+
+test('fails closed when the distribution base ref cannot be compared', () => {
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'detect-distribution-error-'));
+  git(repo, 'init', '-b', 'main');
+
+  assert.throws(
+    () => detectDistributionChanges(repo, 'missing/base'),
+    /Unable to compare the distribution tree with missing\/base/,
+  );
+});
+
+test('weekly sync gates pull request creation on the distribution detector output', () => {
   const workflow = fs.readFileSync(
     path.join(__dirname, '..', '.github', 'workflows', 'weekly-upstream-sync.yml'),
     'utf8',
   );
 
   assert.match(workflow, /id: sync_diff/);
-  assert.match(workflow, /git diff --quiet origin\/main --/);
+  assert.match(workflow, /node scripts\/detect-distribution-changes\.js origin\/main/);
   assert.match(
     workflow,
     /name: Open sync pull request\s+if: \$\{\{ steps\.sync_diff\.outputs\.has_changes == 'true' \}\}/,
