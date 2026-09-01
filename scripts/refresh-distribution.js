@@ -62,6 +62,8 @@ function refreshDistribution(rootPath) {
     .replace(/("total_skills"\s*:\s*)\d+/, `$1${totalSkills}`)
     .replace(/("upstream_skills"\s*:\s*)\d+/, `$1${upstreamSkills}`), changedFiles);
 
+  // docs/compatibility.md is intentionally excluded: it records completed
+  // smoke-test evidence and must only change when that verification is rerun.
   const countFiles = [
     path.join(root, 'README.md'),
     path.join(root, '.codex-plugin', 'plugin.json'),
