@@ -44,7 +44,7 @@ Skills also activate automatically based on what you're doing — designing an A
 **Fastest path — any agent, one command.** The open [skills CLI](https://github.com/vercel-labs/skills) installs into 70+ agents (Claude Code, Cursor, Codex, Copilot, Cline, and more):
 
 ```bash
-npx skills add heruu-1/my-agent-skills            # install all 39 skills
+npx skills add heruu-1/my-agent-skills            # install all 40 skills
 npx skills add heruu-1/my-agent-skills --list     # browse before installing
 ```
 
@@ -215,9 +215,9 @@ Already installed? How you roll the pack out depends on your codebase. The **[Ad
 
 ---
 
-## All 39 Skills
+## All 40 Skills
 
-The commands above are entry points. This distribution includes 39 skills total: 24 upstream lifecycle skills plus 15 Heru extensions for research, ML, agent architecture, and web tooling. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
+The commands above are entry points. This distribution includes 40 skills total: 25 upstream lifecycle skills plus 15 Heru extensions for research, ML, agent architecture, and web tooling. Each skill is a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 
 ### Meta - Discover which skill applies
 
@@ -347,7 +347,7 @@ Every skill follows a consistent anatomy:
 
 ```
 agent-skills/
-├── skills/                            # 39 skills (24 upstream + 15 Heru extensions)
+├── skills/                            # 40 skills (25 upstream + 15 Heru extensions)
 │   ├── interview-me/                  #   Define
 │   ├── idea-refine/                   #   Define
 │   ├── spec-driven-development/       #   Define
