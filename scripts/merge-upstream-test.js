@@ -112,3 +112,17 @@ test('weekly sync keeps main as the pull request base and uses a separate sync b
   assert.match(workflow, /branch: automation\/upstream-sync\s+delete-branch: true\s+base: main/);
   assert.doesNotMatch(workflow, /git checkout -B automation\/upstream-sync/);
 });
+
+test('weekly sync skips pull request creation when the merged tree is unchanged', () => {
+  const workflow = fs.readFileSync(
+    path.join(__dirname, '..', '.github', 'workflows', 'weekly-upstream-sync.yml'),
+    'utf8',
+  );
+
+  assert.match(workflow, /id: sync_diff/);
+  assert.match(workflow, /git diff --quiet origin\/main --/);
+  assert.match(
+    workflow,
+    /name: Open sync pull request\s+if: \$\{\{ steps\.sync_diff\.outputs\.has_changes == 'true' \}\}/,
+  );
+});
