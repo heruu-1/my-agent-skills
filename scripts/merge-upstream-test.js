@@ -94,3 +94,14 @@ test('weekly sync workflow invokes the guarded upstream merge script', () => {
   assert.match(workflow, /node scripts\/merge-upstream\.js upstream\/main/);
   assert.doesNotMatch(workflow, /git merge --no-edit upstream\/main/);
 });
+
+test('weekly sync keeps main as the pull request base and uses a separate sync branch', () => {
+  const workflow = fs.readFileSync(
+    path.join(__dirname, '..', '.github', 'workflows', 'weekly-upstream-sync.yml'),
+    'utf8',
+  );
+
+  assert.match(workflow, /fetch-depth: 0\s+ref: main/);
+  assert.match(workflow, /branch: automation\/upstream-sync\s+delete-branch: true\s+base: main/);
+  assert.doesNotMatch(workflow, /git checkout -B automation\/upstream-sync/);
+});
