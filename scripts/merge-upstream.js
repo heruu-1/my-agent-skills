@@ -3,16 +3,14 @@
 'use strict';
 
 const { spawnSync } = require('node:child_process');
+const { INSTALL_DOCS } = require('./validate-distribution');
 
 const FORK_OWNED_CONFLICTS = new Set([
   '.agents/plugins/marketplace.json',
   '.claude-plugin/marketplace.json',
   '.claude-plugin/plugin.json',
   '.codex-plugin/plugin.json',
-  'README.md',
-  'docs/adoption-guide.md',
-  'docs/codex-setup.md',
-  'docs/commandcode-setup.md',
+  ...INSTALL_DOCS,
   'docs/comparison.md',
   'plugin.json',
 ]);

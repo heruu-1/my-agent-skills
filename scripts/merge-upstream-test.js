@@ -5,7 +5,8 @@ const os = require('node:os');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
-const { mergeUpstream } = require('./merge-upstream');
+const { FORK_OWNED_CONFLICTS, mergeUpstream } = require('./merge-upstream');
+const { INSTALL_DOCS } = require('./validate-distribution');
 
 function git(repo, ...args) {
   return execFileSync('git', args, { cwd: repo, encoding: 'utf8' }).trim();
@@ -53,6 +54,12 @@ test('resolves allowlisted fork metadata conflicts while retaining clean upstrea
   assert.equal(fs.readFileSync(path.join(repo, 'README.md'), 'utf8'), 'fork customization\n');
   assert.equal(fs.readFileSync(path.join(repo, 'upstream-only.txt'), 'utf8'), 'updated upstream\n');
   assert.equal(git(repo, 'rev-list', '--parents', '-n', '1', 'HEAD').split(' ').length, 3);
+});
+
+test('treats every distribution-rewritten installer document as fork-owned', () => {
+  const missing = INSTALL_DOCS.filter((file) => !FORK_OWNED_CONFLICTS.has(file));
+
+  assert.deepEqual(missing, []);
 });
 
 test('fails closed and aborts when a conflict is outside the fork-owned allowlist', () => {
