@@ -105,7 +105,8 @@ function validateDistribution(rootPath) {
     if (!fs.existsSync(path.join(root, workflow))) errors.push(`${workflow}: workflow missing`);
   }
   const readme = fs.existsSync(path.join(root, 'README.md')) ? fs.readFileSync(path.join(root, 'README.md'), 'utf8') : '';
-  if (!readme.includes('## All 39 Skills')) errors.push('README.md: 39-skill catalog heading missing');
+  const expectedHeading = `## All ${skillNames.length} Skills`;
+  if (!readme.includes(expectedHeading)) errors.push(`README.md: ${skillNames.length}-skill catalog heading missing`);
 
   return { errors, skillCount: skillNames.length };
 }
@@ -120,4 +121,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { validateDistribution, validateInstallText };
+module.exports = { INSTALL_COMMAND, INSTALL_DOCS, validateDistribution, validateInstallText };

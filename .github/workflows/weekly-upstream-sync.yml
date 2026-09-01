@@ -34,7 +34,9 @@ jobs:
           git remote add upstream https://github.com/addyosmani/agent-skills.git
           git fetch --no-tags upstream main
           git checkout -B automation/upstream-sync origin/main
-          git merge --no-edit upstream/main
+          node scripts/merge-upstream.js upstream/main
+      - name: Refresh downstream distribution metadata
+        run: node scripts/refresh-distribution.js
       - name: Run complete quality gates
         run: |
           node scripts/validate-skills.js
