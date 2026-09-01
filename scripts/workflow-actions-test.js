@@ -9,10 +9,20 @@ const REQUIRED_PINS = new Map([
   ['actions/setup-node', '820762786026740c76f36085b0efc47a31fe5020 # v7.0.0'],
 ]);
 
+function isWorkflowFile(file) {
+  return /\.ya?ml$/.test(file);
+}
+
+test('recognizes both supported GitHub workflow extensions', () => {
+  assert.equal(isWorkflowFile('ci.yml'), true);
+  assert.equal(isWorkflowFile('ci.yaml'), true);
+  assert.equal(isWorkflowFile('ci.json'), false);
+});
+
 test('official Node actions use the reviewed Node 24 commit pins', () => {
   const observedActions = new Set();
 
-  for (const name of fs.readdirSync(WORKFLOW_DIR).filter((file) => file.endsWith('.yml'))) {
+  for (const name of fs.readdirSync(WORKFLOW_DIR).filter(isWorkflowFile)) {
     const workflow = fs.readFileSync(path.join(WORKFLOW_DIR, name), 'utf8');
 
     for (const [action, pin] of REQUIRED_PINS) {
