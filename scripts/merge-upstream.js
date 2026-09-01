@@ -5,6 +5,9 @@
 const { spawnSync } = require('node:child_process');
 const { INSTALL_DOCS } = require('./validate-distribution');
 
+// Every INSTALL_DOCS entry is rewritten by refreshDistribution and is therefore
+// fork-owned. Keep validation-only documents in a separate list: adding a path
+// here also permits guarded conflict resolution to retain the fork with -X ours.
 const FORK_OWNED_CONFLICTS = new Set([
   '.agents/plugins/marketplace.json',
   '.claude-plugin/marketplace.json',
