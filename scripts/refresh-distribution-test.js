@@ -48,7 +48,11 @@ test('refreshes fork counts and install commands after an upstream merge', () =>
   assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /## All 3 Skills/);
   assert.match(fs.readFileSync(path.join(root, 'README.md'), 'utf8'), /2 upstream lifecycle skills/);
   assert.match(fs.readFileSync(path.join(root, 'docs/adoption-guide.md'), 'utf8'), /#all-3-skills/);
-  assert.match(fs.readFileSync(path.join(root, 'docs/compatibility.md'), 'utf8'), /all 2 skills/);
+  assert.match(
+    fs.readFileSync(path.join(root, 'docs/compatibility.md'), 'utf8'),
+    /all 2 skills/,
+    'historical compatibility evidence must remain unchanged',
+  );
   assert.match(fs.readFileSync(path.join(root, '.codex-plugin/plugin.json'), 'utf8'), /Bundles 3 engineering/);
 
   const openCode = fs.readFileSync(path.join(root, 'docs/opencode-setup.md'), 'utf8');
