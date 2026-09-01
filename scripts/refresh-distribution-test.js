@@ -56,6 +56,22 @@ test('refreshes fork counts and install commands after an upstream merge', () =>
   assert.match(openCode, /Source: https:\/\/github\.com\/addyosmani\/agent-skills/);
 });
 
+test('rejects extension counts larger than the discovered skill count', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'refresh-distribution-'));
+  write(root, 'skills/only-skill/SKILL.md', '---\nname: only-skill\n---\n');
+  write(root, 'catalog/skills.json', `${JSON.stringify({
+    total_skills: 1,
+    upstream_skills: 0,
+    extension_skills: 2,
+    skills: [{ name: 'only-skill' }],
+  }, null, 2)}\n`);
+
+  assert.throws(
+    () => refreshDistribution(root),
+    /Extension skill count exceeds discovered skill count/,
+  );
+});
+
 test('weekly sync refreshes distribution metadata before quality gates', () => {
   const workflow = fs.readFileSync(
     path.join(__dirname, '..', '.github', 'workflows', 'weekly-upstream-sync.yml'),

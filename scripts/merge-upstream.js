@@ -37,6 +37,16 @@ function abortMerge(repo) {
   if (mergeHead.status === 0) runGit(repo, ['merge', '--abort'], true);
 }
 
+/**
+ * Merge an upstream Git ref into a clean repository, automatically preferring
+ * the fork version only when every conflict is in the fork-owned allowlist.
+ *
+ * @param {string} repo - Repository working-tree path.
+ * @param {string} upstreamRef - Git ref to merge, such as `upstream/main`.
+ * @returns {{resolvedConflicts: string[]}} Paths auto-resolved by the guarded merge.
+ * @throws {Error} If the tree is dirty, Git inspection or merging fails, or a
+ * conflict falls outside the fork-owned allowlist. Failed merges are aborted.
+ */
 function mergeUpstream(repo, upstreamRef) {
   const status = runGit(repo, ['status', '--porcelain']);
   if (status.status !== 0) throw new Error(status.stderr.trim() || 'Unable to inspect working tree');
