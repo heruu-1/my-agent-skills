@@ -39,13 +39,9 @@ jobs:
         run: node scripts/refresh-distribution.js
       - name: Detect distribution changes
         id: sync_diff
-        run: |
-          if git diff --quiet origin/main --; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-            echo "Upstream merge leaves the distribution tree unchanged."
-          else
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
-          fi
+        # create-pull-request treats a local merge commit as publishable even
+        # when its distribution tree is identical to origin/main.
+        run: node scripts/detect-distribution-changes.js origin/main
       - name: Run complete quality gates
         run: |
           node scripts/validate-skills.js
