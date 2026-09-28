@@ -19,14 +19,9 @@ $payload = [ordered]@{
         )
     }
     enforce_admins = $true
-    required_pull_request_reviews = [ordered]@{
-        dismiss_stale_reviews = $true
-        require_code_owner_reviews = $false
-        required_approving_review_count = 1
-        require_last_push_approval = $false
-    }
+    required_pull_request_reviews = $null
     restrictions = $null
-    required_linear_history = $true
+    required_linear_history = $false
     allow_force_pushes = $false
     allow_deletions = $false
     block_creations = $false

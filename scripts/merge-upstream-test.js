@@ -63,6 +63,38 @@ test('treats every distribution-rewritten installer document as fork-owned', () 
   assert.deepEqual(missing, []);
 });
 
+test('resolves modify/delete conflicts when deleted file is in fork-owned allowlist', () => {
+  const repo = fs.mkdtempSync(path.join(os.tmpdir(), 'merge-upstream-del-'));
+  git(repo, 'init', '-b', 'main');
+  git(repo, 'config', 'user.name', 'Merge Upstream Test');
+  git(repo, 'config', 'user.email', 'merge-upstream@example.invalid');
+  git(repo, 'config', 'core.autocrlf', 'false');
+
+  const conflictPath = '.github/workflows/test-plugin-install.yml';
+  write(repo, conflictPath, 'upstream workflow\n');
+  write(repo, 'upstream-only.txt', 'base\n');
+  git(repo, 'add', '.');
+  git(repo, 'commit', '-m', 'base');
+  git(repo, 'branch', 'upstream');
+
+  git(repo, 'rm', conflictPath);
+  git(repo, 'commit', '-m', 'delete in fork');
+
+  git(repo, 'checkout', 'upstream');
+  write(repo, conflictPath, 'updated upstream workflow\n');
+  write(repo, 'upstream-only.txt', 'updated upstream\n');
+  git(repo, 'add', '.');
+  git(repo, 'commit', '-m', 'update upstream');
+  git(repo, 'checkout', 'main');
+
+  const result = mergeUpstream(repo, 'upstream');
+
+  assert.deepEqual(result.resolvedConflicts, [conflictPath]);
+  assert.equal(fs.existsSync(path.join(repo, conflictPath)), false);
+  assert.equal(fs.readFileSync(path.join(repo, 'upstream-only.txt'), 'utf8'), 'updated upstream\n');
+  assert.equal(git(repo, 'rev-list', '--parents', '-n', '1', 'HEAD').split(' ').length, 3);
+});
+
 test('fails closed and aborts when a conflict is outside the fork-owned allowlist', () => {
   const conflictPath = 'skills/example/SKILL.md';
   const repo = createConflictingRepository(conflictPath);

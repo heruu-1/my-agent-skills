@@ -64,4 +64,6 @@ jobs:
           commit-message: 'chore: sync upstream agent skills'
           body: |
             Automated upstream sync. All repository quality gates ran before this PR was opened.
+
+            > **Important:** Always merge this PR using **"Create a merge commit"** (or Rebase). Do **NOT** use "Squash and merge", as squashing strips the upstream commit history and causes subsequent upstream sync merges to conflict.
           labels: upstream-sync
