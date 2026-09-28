@@ -6,7 +6,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 
 const { detectDistributionChanges } = require('./detect-distribution-changes');
-const { FORK_OWNED_CONFLICTS, mergeUpstream } = require('./merge-upstream');
+const { FORK_OWNED_CONFLICTS, isForkOwnedConflict, mergeUpstream } = require('./merge-upstream');
 const { INSTALL_DOCS } = require('./validate-distribution');
 
 function git(repo, ...args) {
@@ -185,4 +185,30 @@ test('weekly sync gates pull request creation on the distribution detector outpu
     workflow,
     /name: Open sync pull request\s+if: \$\{\{ steps\.sync_diff\.outputs\.has_changes == 'true' \}\}/,
   );
+});
+
+test('isForkOwnedConflict recognizes PowerShell scripts, bundles, catalog, automation, workflows, and catalog extension skills', () => {
+  const root = path.join(__dirname, '..');
+  assert.equal(isForkOwnedConflict('setup-windows-agent.ps1', root), true);
+  assert.equal(isForkOwnedConflict('bundles/heru-agent-engineering/bundle.json', root), true);
+  assert.equal(isForkOwnedConflict('automation/repos.json', root), true);
+  assert.equal(isForkOwnedConflict('catalog/skills.json', root), true);
+  assert.equal(isForkOwnedConflict('agents/academic-paper-writer.md', root), true);
+  assert.equal(isForkOwnedConflict('.github/workflows/ci.yml', root), true);
+  assert.equal(isForkOwnedConflict('skills/shadcn-ui-engineering/SKILL.md', root), true);
+  assert.equal(isForkOwnedConflict('skills/unknown-skill/SKILL.md', root), false);
+  assert.equal(isForkOwnedConflict('skills/code-review-and-quality/SKILL.md', root), false);
+});
+
+test('auto-resolves conflicts on fork extension skills while failing on unapproved skills', () => {
+  const repo = createConflictingRepository('skills/shadcn-ui-engineering/SKILL.md');
+  write(repo, 'catalog/skills.json', JSON.stringify({
+    skills: [{ name: 'shadcn-ui-engineering' }]
+  }));
+  git(repo, 'add', 'catalog/skills.json');
+  git(repo, 'commit', '-m', 'add catalog');
+
+  const result = mergeUpstream(repo, 'upstream');
+  assert.deepEqual(result.resolvedConflicts, ['skills/shadcn-ui-engineering/SKILL.md']);
+  assert.equal(fs.readFileSync(path.join(repo, 'skills/shadcn-ui-engineering/SKILL.md'), 'utf8'), 'fork customization\n');
 });

@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 concurrency:
   group: upstream-sync
@@ -71,5 +72,20 @@ jobs:
       - name: Enable auto-merge for sync pull request
         if: ${{ steps.sync_diff.outputs.has_changes == 'true' && steps.cpr.outputs.pull-request-number }}
         run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}" --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Alert on sync failure
+        if: ${{ failure() }}
+        run: |
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "⚠️ [Weekly Sync] Upstream sync requires attention ($(date +'%Y-%m-%d'))" \
+            --body "The automated weekly upstream sync encountered an issue that stopped the pipeline safely (fail-closed).
+          
+          **Status:** Main branch is untouched. AI skills on local machines remain safe on the last stable commit.
+          
+          Please inspect the workflow run logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          " \
+            --label "upstream-sync"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
