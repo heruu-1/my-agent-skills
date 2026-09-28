@@ -54,6 +54,7 @@ jobs:
           node scripts/run-evals.js --min-rank1 80
       - name: Open sync pull request
         if: ${{ steps.sync_diff.outputs.has_changes == 'true' }}
+        id: cpr
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -65,5 +66,10 @@ jobs:
           body: |
             Automated upstream sync. All repository quality gates ran before this PR was opened.
 
-            > **Important:** Always merge this PR using **"Create a merge commit"**. Do **NOT** use "Squash and merge" (which strips upstream commit history) or "Rebase and merge" (which fails due to merge commits in the sync branch).
+            > **Important:** This PR is automatically configured to merge via **"Create a merge commit"** once quality gates pass.
           labels: upstream-sync
+      - name: Enable auto-merge for sync pull request
+        if: ${{ steps.sync_diff.outputs.has_changes == 'true' && steps.cpr.outputs.pull-request-number }}
+        run: gh pr merge --merge --auto "${{ steps.cpr.outputs.pull-request-number }}" --repo "${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
