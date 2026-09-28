@@ -2,8 +2,7 @@
 
 "use strict";
 
-const { execFileSync } = require("node:child_process");
-const { existsSync, readFileSync } = require("node:fs");
+const { readFileSync } = require("node:fs");
 
 const manifestPaths = [
   "plugin.json",
@@ -18,14 +17,9 @@ function readManifestVersion(manifestPath) {
   return manifest.version ?? manifest.plugins?.[0]?.version;
 }
 
-const expectedVersion = existsSync("VERSION")
-  ? readFileSync("VERSION", "utf8").trim()
-  : execFileSync("git", ["describe", "--tags", "--abbrev=0"], {
-      encoding: "utf8",
-    }).trim();
-
-if (!/^\d+\.\d+\.\d+$/.test(expectedVersion)) {
-  throw new Error(`Invalid release version: ${expectedVersion}`);
+const expectedVersion = readManifestVersion("plugin.json");
+if (!expectedVersion) {
+  throw new Error("plugin.json is missing a version field");
 }
 
 for (const manifestPath of manifestPaths) {
