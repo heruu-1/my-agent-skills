@@ -2,6 +2,8 @@
 
 'use strict';
 
+const fs = require('node:fs');
+const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { INSTALL_DOCS } = require('./validate-distribution');
 
@@ -19,6 +21,30 @@ const FORK_OWNED_CONFLICTS = new Set([
   'plugin.json',
   'scripts/lib/skill-lint.js',
 ]);
+
+function isForkOwnedConflict(file, repo) {
+  if (FORK_OWNED_CONFLICTS.has(file)) return true;
+  if (file.endsWith('.ps1')) return true;
+  if (file.startsWith('bundles/') || file.startsWith('automation/') || file.startsWith('catalog/')) return true;
+  if (file === 'agents/academic-paper-writer.md' || file === 'agents/ml-research-engineer.md') return true;
+  if (file.startsWith('.github/workflows/') && (file.endsWith('ci.yml') || file.endsWith('weekly-upstream-sync.yml') || file.endsWith('publish-release.yml'))) return true;
+
+  const skillMatch = file.match(/^skills\/([^/]+)\//);
+  if (skillMatch && repo) {
+    try {
+      const catalogPath = path.join(repo, 'catalog', 'skills.json');
+      if (fs.existsSync(catalogPath)) {
+        const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+        if (Array.isArray(catalog.skills) && catalog.skills.some((s) => s.name === skillMatch[1])) {
+          return true;
+        }
+      }
+    } catch {
+      // Fall back if catalog cannot be parsed
+    }
+  }
+  return false;
+}
 
 function runGit(repo, args, echo = false) {
   const result = spawnSync('git', args, {
@@ -70,7 +96,7 @@ function mergeUpstream(repo, upstreamRef) {
     throw new Error(initial.stderr.trim() || 'Upstream merge failed without file conflicts');
   }
 
-  const disallowed = conflicts.filter((file) => !FORK_OWNED_CONFLICTS.has(file));
+  const disallowed = conflicts.filter((file) => !isForkOwnedConflict(file, repo));
   if (disallowed.length) {
     abortMerge(repo);
     throw new Error(
@@ -109,4 +135,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { FORK_OWNED_CONFLICTS, mergeUpstream };
+module.exports = { FORK_OWNED_CONFLICTS, isForkOwnedConflict, mergeUpstream };

@@ -89,6 +89,23 @@ const SECTION_EXEMPT_SKILLS = {
   'uv-python-package-manager': 'uv package manager skill',
 };
 
+// Dynamically register any extension skill declared in catalog/skills.json
+try {
+  const catalogPath = path.resolve(__dirname, '..', '..', 'catalog', 'skills.json');
+  if (fs.existsSync(catalogPath)) {
+    const catalogData = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+    if (Array.isArray(catalogData.skills)) {
+      for (const skill of catalogData.skills) {
+        if (skill && skill.name && !SECTION_EXEMPT_SKILLS[skill.name]) {
+          SECTION_EXEMPT_SKILLS[skill.name] = `Fork extension skill (${skill.bundle || 'custom'})`;
+        }
+      }
+    }
+  }
+} catch {
+  // Gracefully fallback to static allowlist
+}
+
 // Regex patterns that indicate an explicit cross-skill reference.
 // Only these patterns trigger the dead-reference warning — generic
 // backtick strings in code blocks are intentionally excluded.
