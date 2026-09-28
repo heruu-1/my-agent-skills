@@ -65,5 +65,5 @@ jobs:
           body: |
             Automated upstream sync. All repository quality gates ran before this PR was opened.
 
-            > **Important:** Always merge this PR using **"Create a merge commit"** (or Rebase). Do **NOT** use "Squash and merge", as squashing strips the upstream commit history and causes subsequent upstream sync merges to conflict.
+            > **Important:** Always merge this PR using **"Create a merge commit"**. Do **NOT** use "Squash and merge" (which strips upstream commit history) or "Rebase and merge" (which fails due to merge commits in the sync branch).
           labels: upstream-sync
