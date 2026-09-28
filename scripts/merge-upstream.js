@@ -13,6 +13,7 @@ const FORK_OWNED_CONFLICTS = new Set([
   '.claude-plugin/marketplace.json',
   '.claude-plugin/plugin.json',
   '.codex-plugin/plugin.json',
+  '.github/workflows/test-plugin-install.yml',
   ...INSTALL_DOCS,
   'docs/comparison.md',
   'plugin.json',
@@ -76,8 +77,17 @@ function mergeUpstream(repo, upstreamRef) {
     );
   }
 
-  abortMerge(repo);
-  const resolved = runGit(repo, ['merge', '--no-edit', '-X', 'ours', upstreamRef], true);
+  for (const file of conflicts) {
+    const headFile = runGit(repo, ['cat-file', '-e', `HEAD:${file}`]);
+    if (headFile.status === 0) {
+      runGit(repo, ['checkout', '--ours', '--', file]);
+      runGit(repo, ['add', file]);
+    } else {
+      runGit(repo, ['rm', '-f', '--ignore-unmatch', file]);
+    }
+  }
+
+  const resolved = runGit(repo, ['commit', '--no-edit'], true);
   if (resolved.status !== 0) {
     abortMerge(repo);
     throw new Error(resolved.stderr.trim() || 'Guarded upstream merge failed');
